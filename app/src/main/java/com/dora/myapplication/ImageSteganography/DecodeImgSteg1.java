@@ -31,8 +31,8 @@ public class DecodeImgSteg1 extends AppCompatActivity implements TextDecodingCal
     Button chooseImgBtn, decodeBtn;
     TextView successDecodingTextView, hiddenMessageTextView, messageOutputTextView;
 
-    Bitmap encodedImageBitmap;
-    ImageSteganography result;
+    private Bitmap encodedImageBitmap;
+//    ImageSteganography result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class DecodeImgSteg1 extends AppCompatActivity implements TextDecodingCal
     @Override
     public void onCompleteTextEncoding(ImageSteganography result) {
         //After the completion of text decoding.
-        this.result = result;
+//        this.result = result;
         hiddenMessageTextView.setVisibility(View.VISIBLE);
         if (result != null) {
             if (!result.isDecoded()) {
