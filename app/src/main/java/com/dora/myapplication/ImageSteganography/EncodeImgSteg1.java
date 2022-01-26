@@ -94,7 +94,8 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
 
 //        saveEncodedImgBtn.setOnClickListener(view -> saveImageScopedStorage());
 
-        //Save image button
+        // Save image button
+        // This saving the encoded image part is most crucial for the Image Steganography to work properly:
         saveEncodedImgBtn.setOnClickListener(view -> {
             final Bitmap imgToSave = encodedImageBitmap;
             Thread PerformEncoding = new Thread(() -> saveToInternalStorage(imgToSave, "Encoded"));
