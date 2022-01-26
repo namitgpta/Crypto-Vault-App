@@ -4,7 +4,10 @@
     package="com.dora.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+<!--    // needed for new scopedStorage save-->
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+
+<!--    // needed for the old save to Downloads-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

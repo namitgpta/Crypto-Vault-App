@@ -92,6 +92,7 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
 
         });
 
+        // Latest scoped storage save is causing issues with saving the encoded image bitmap. The encoded image bitmap is unable to be decoded.
 //        saveEncodedImgBtn.setOnClickListener(view -> saveImageScopedStorage());
 
         // Save image button
