@@ -26,7 +26,7 @@ public class ImgSteg1 extends AppCompatActivity {
         });
 
         decodeBtn.setOnClickListener(view -> {
-            //startActivity(new Intent(ImgSteg1.this, EncodeImgSteg1.class));
+            startActivity(new Intent(ImgSteg1.this, DecodeImgSteg1.class));
         });
     }
 }

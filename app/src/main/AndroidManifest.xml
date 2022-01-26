@@ -17,6 +17,9 @@
         android:theme="@style/Theme.CryptoVault"
         tools:targetApi="31">
         <activity
+            android:name=".ImageSteganography.DecodeImgSteg1"
+            android:exported="false" />
+        <activity
             android:name=".ImageSteganography.EncodeImgSteg1"
             android:exported="false" />
         <activity

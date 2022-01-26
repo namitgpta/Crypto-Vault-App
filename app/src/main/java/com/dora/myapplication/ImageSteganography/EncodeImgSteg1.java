@@ -42,6 +42,7 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
     Bitmap selectedImageBitmap;
     Bitmap encodedImageBitmap;
     boolean imageSavedOrNot = true;
+    ImageSteganography result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +119,7 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
     @Override
     public void onCompleteTextEncoding(ImageSteganography result) {
         //After the completion of text encoding.
-
+        this.result = result;
         if (result != null && result.isEncoded()) {
 
             //encrypted image bitmap is extracted from result object
