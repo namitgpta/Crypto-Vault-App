@@ -1,18 +1,19 @@
 package com.dora.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.dora.myapplication.Cryptography.CryptographyMainActivity;
 import com.dora.myapplication.ImageSteganography.ImgSteg1;
 
 public class MainActivity extends AppCompatActivity {
 
     Button imgStegBtn, gitHubRepoBtn;
+    Button txtCryptoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
         imgStegBtn = findViewById(R.id.imgStegBtn);
         gitHubRepoBtn = findViewById(R.id.githubRepoBtn);
+        txtCryptoBtn = findViewById(R.id.txtCryptoBtn);
 
         imgStegBtn.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, ImgSteg1.class)));
-        gitHubRepoBtn.setOnClickListener(view -> gitHubRepoExternalRedirect());
+        txtCryptoBtn.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, CryptographyMainActivity.class)));
 
+        gitHubRepoBtn.setOnClickListener(view -> gitHubRepoExternalRedirect());
     }
 
     private void gitHubRepoExternalRedirect() {

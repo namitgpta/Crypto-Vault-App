@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/namit/AndroidStudioProjects/Crypto-Vault-App/app/src/main/res/layout/activity_cryptography_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/namit/AndroidStudioProjects/Crypto-Vault-App/app/src/main/res/layout/activity_encode_img_steg1.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/namit/AndroidStudioProjects/Crypto-Vault-App/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/namit/AndroidStudioProjects/Crypto-Vault-App/app/src/main/res/layout/loading_layout_dialog.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/namit/AndroidStudioProjects/CryptoVault/app/src/main/res/layout/activity_decode_img_steg1.xml" value="0.22" />
         <entry key="..\:/Users/namit/AndroidStudioProjects/CryptoVault/app/src/main/res/layout/activity_encode_img_steg1.xml" value="0.22" />

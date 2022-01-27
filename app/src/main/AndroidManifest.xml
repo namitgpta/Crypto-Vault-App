@@ -3,13 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dora.myapplication">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-<!--    // needed for new scopedStorage save-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- // needed for new scopedStorage save -->
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-
-<!--    // needed for the old save to Downloads-->
-<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
     <application
         android:allowBackup="true"
@@ -21,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptoVault"
         tools:targetApi="31">
+        <activity
+            android:name=".Cryptography.CryptographyMainActivity"
+            android:exported="false" />
         <activity
             android:name=".ImageSteganography.DecodeImgSteg1"
             android:exported="false" />
