@@ -22,6 +22,7 @@
         android:layout_width="358dp"
         android:layout_height="304dp"
         android:layout_marginTop="32dp"
+        android:contentDescription="Selected Image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,15 +107,15 @@
         app:layout_constraintTop_toBottomOf="@+id/keyEncodeImgSteg"
         app:layout_constraintVertical_bias="0.373" />
 
-<!--    <ProgressBar-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1"-->
-<!--        android:visibility="invisible"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/messageEncodeImgSteg"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/chooseImgEncodeImgSteg" />-->
+    <!--    <ProgressBar-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:visibility="invisible"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/messageEncodeImgSteg"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/chooseImgEncodeImgSteg" />-->
 
     <TextView
         android:id="@+id/successTextViewEncodeImgSteg"

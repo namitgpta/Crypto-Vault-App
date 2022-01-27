@@ -51,6 +51,9 @@ public class DecodeImgSteg1 extends AppCompatActivity implements TextDecodingCal
         messageOutputTextView.setVisibility(View.INVISIBLE);
         successDecodingTextView.setVisibility(View.INVISIBLE);
 
+        // Set no_image_selected as ImageView
+        imageViewPreviewTop.setImageResource(R.drawable.no_img_selected);
+
         chooseImgBtn.setOnClickListener(view -> imageChooser());
 
         decodeBtn.setOnClickListener(view -> {

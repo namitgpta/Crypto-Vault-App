@@ -1,15 +1,17 @@
 package com.dora.myapplication.ImageSteganography;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +22,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextEncodingCallback;
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography;
@@ -29,11 +29,9 @@ import com.ayush.imagesteganographylibrary.Text.TextEncoding;
 import com.dora.myapplication.R;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCallback {
 
@@ -44,10 +42,9 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
 
     private Bitmap selectedImageBitmap;
     private Bitmap encodedImageBitmap;
-//    boolean imageSavedOrNot = true;
+    boolean imageSavedOrNot = true;
 //    ImageSteganography result;
 
-//    ProgressDialog save;
     AlertDialog saveLoadingDialog;
 
     @Override
@@ -64,7 +61,10 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
         saveEncodedImgBtn = findViewById(R.id.saveEncodedImgSteg);
 
         // Request the old deprecated Read and Write permissions, if not granted already:
-        checkAndRequestPermissions();
+//        checkAndRequestPermissions();
+
+        // Set no_image_selected as ImageView
+        imageViewPreviewTop.setImageResource(R.drawable.no_img_selected);
 
         chooseImgBtn.setOnClickListener(view -> imageChooser());
 
@@ -94,24 +94,20 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
 
         });
 
-        // Latest scoped storage save is causing issues with saving the encoded image bitmap. The encoded image bitmap is unable to be decoded.
-//        saveEncodedImgBtn.setOnClickListener(view -> saveImageScopedStorage());
+        saveEncodedImgBtn.setOnClickListener(view -> {
+            saveImageScopedStorage();
+            saveLoadingDialog.show();
+        });
 
         // Save image button
         // This saving the encoded image part is most crucial for the Image Steganography to work properly:
-        saveEncodedImgBtn.setOnClickListener(view -> {
-            final Bitmap imgToSave = encodedImageBitmap;
-            Thread PerformEncoding = new Thread(() -> saveToInternalStorage(imgToSave));
-            saveLoadingDialog.show();
-
-//            save = new ProgressDialog(EncodeImgSteg1.this);
-//            save.setMessage("Saving, Please Wait...");
-//            save.setTitle("Saving Image");
-//            save.setIndeterminate(false);
-//            save.setCancelable(false);
-//            save.show();
-            PerformEncoding.start();
-        });
+//        saveEncodedImgBtn.setOnClickListener(view -> {
+//            final Bitmap imgToSave = encodedImageBitmap;
+//            Thread PerformEncoding = new Thread(() -> saveToInternalStorage(imgToSave));
+//            saveLoadingDialog.show();
+//
+//            PerformEncoding.start();
+//        });
     }
 
     private void imageChooser() {
@@ -165,90 +161,92 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
         }
     }
 
-//    private void saveImageScopedStorage() {
-//        imageSavedOrNot = true;
-//
-//        new Thread(() -> {
-//            OutputStream fos = null;
-//            try {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                    ContentResolver contentResolver = getContentResolver();
-//                    ContentValues contentValues = new ContentValues();
-//                    contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "Encoded_Stego_Img_" + java.time.LocalDateTime.now() + ".jpg");
-//                    contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-//                    contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + "Crypto Vault App");
-//                    Uri imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-//                    fos = contentResolver.openOutputStream(Objects.requireNonNull(imageUri));
-//                    encodedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//                    Objects.requireNonNull(fos);
-//
-//                    // Toasts not allowed in threads
-//                }
-//            } catch (Exception e) {
-//                imageSavedOrNot = false;
-//                Log.e("Stego Image Save Error: ", e.getMessage());
-//            } finally {
-//                try {
-//                    if (fos != null) {
-//                        fos.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            runOnUiThread(() -> {
-//                // after the thread job is finished:
-//
-//                imageSavedToastFunction();
-//            });
-//        }).start();
-//
-//    }
-//
-//    public void imageSavedToastFunction() {
-//        if (imageSavedOrNot) {
-//            Toast.makeText(this, "Image Saved to Pictures!!!", Toast.LENGTH_LONG).show();
-//        } else {
-//            Toast.makeText(this, "Image not saved. Check logs for error", Toast.LENGTH_LONG).show();
-//        }
-//    }
+    private void saveImageScopedStorage() {
+        imageSavedOrNot = true;
 
+        new Thread(() -> {
+            OutputStream fos = null;
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ContentResolver contentResolver = getContentResolver();
+                    ContentValues contentValues = new ContentValues();
 
-    private void saveToInternalStorage(Bitmap bitmapImage) {
-        OutputStream fOut;
-        //Integer counter = 0;
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS), "Encoded" + ".PNG"); // the File to save ,
-        try {
-            fOut = new FileOutputStream(file);
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fOut); // saving the Bitmap to a file
-            fOut.flush(); // Not really required
-            fOut.close(); // do not forget to close the stream
-            successEncodingTextView.post(() -> {
-//                    save.dismiss();
+                    // Saving encoded image as PNG results in successful encoding and decoding.
+                    contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "Encoded_Stego_Img_" + java.time.LocalDateTime.now() + ".PNG");
+                    contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/PNG");
+                    contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + "Crypto Vault App");
+                    Uri imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                    fos = contentResolver.openOutputStream(Objects.requireNonNull(imageUri));
+                    encodedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    Objects.requireNonNull(fos);
+
+                    // Toasts not allowed in threads
+                }
+            } catch (Exception e) {
+                imageSavedOrNot = false;
+                Log.e("Stego Image Save Error: ", e.getMessage());
+            } finally {
+                try {
+                    if (fos != null) {
+                        fos.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            runOnUiThread(() -> {
+                // after the thread job is finished:
+                imageSavedToastFunction();
                 saveLoadingDialog.dismiss();
             });
-        } catch (IOException e) {
-            e.printStackTrace();
+        }).start();
+
+    }
+
+    public void imageSavedToastFunction() {
+        if (imageSavedOrNot) {
+            Toast.makeText(this, "Image Saved to Pictures!!!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Image not saved. Check logs for error", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void checkAndRequestPermissions() {
-        int permissionWriteStorage = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int ReadPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        List<String> listPermissionsNeeded = new ArrayList<>();
-        if (ReadPermission != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-        if (permissionWriteStorage != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            String[] listPermissionsNeededStringArr = new String[listPermissionsNeeded.size()];
-            listPermissionsNeededStringArr = listPermissionsNeeded.toArray(listPermissionsNeededStringArr);
-            ActivityCompat.requestPermissions(this, listPermissionsNeededStringArr, 1);
-        }
-    }
+
+//    private void saveToInternalStorage(Bitmap bitmapImage) {
+//        OutputStream fOut;
+//        //Integer counter = 0;
+//        File file = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_DOWNLOADS), "Encoded" + ".PNG"); // the File to save ,
+//        try {
+//            fOut = new FileOutputStream(file);
+//            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fOut); // saving the Bitmap to a file
+//            fOut.flush(); // Not really required
+//            fOut.close(); // do not forget to close the stream
+//            successEncodingTextView.post(() -> {
+////                    save.dismiss();
+//                saveLoadingDialog.dismiss();
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void checkAndRequestPermissions() {
+//        int permissionWriteStorage = ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        int ReadPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+//        List<String> listPermissionsNeeded = new ArrayList<>();
+//        if (ReadPermission != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+//        }
+//        if (permissionWriteStorage != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        }
+//        if (!listPermissionsNeeded.isEmpty()) {
+//            String[] listPermissionsNeededStringArr = new String[listPermissionsNeeded.size()];
+//            listPermissionsNeededStringArr = listPermissionsNeeded.toArray(listPermissionsNeededStringArr);
+//            ActivityCompat.requestPermissions(this, listPermissionsNeededStringArr, 1);
+//        }
+//    }
 }
