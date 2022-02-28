@@ -17,6 +17,15 @@
         android:theme="@style/Theme.CryptoVault"
         tools:targetApi="31">
         <activity
+            android:name=".Cryptography.ASymmetric.RSA.RsaDecrypt"
+            android:exported="false" />
+        <activity
+            android:name=".Cryptography.ASymmetric.RSA.RsaEncrypt"
+            android:exported="false" />
+        <activity
+            android:name=".Cryptography.ASymmetric.RSA.RsaKeyGeneration"
+            android:exported="false" />
+        <activity
             android:name=".Cryptography.ASymmetric.RSA.RSAMainActivity"
             android:exported="false" />
         <activity

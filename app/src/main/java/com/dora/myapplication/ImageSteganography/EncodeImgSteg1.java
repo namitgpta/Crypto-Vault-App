@@ -60,9 +60,6 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
         successEncodingTextView = findViewById(R.id.successTextViewEncodeImgSteg);
         saveEncodedImgBtn = findViewById(R.id.saveEncodedImgSteg);
 
-        // Request the old deprecated Read and Write permissions, if not granted already:
-//        checkAndRequestPermissions();
-
         // Set no_image_selected as ImageView
         imageViewPreviewTop.setImageResource(R.drawable.no_img_selected);
 
@@ -98,16 +95,6 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
             saveImageScopedStorage();
             saveLoadingDialog.show();
         });
-
-        // Save image button
-        // This saving the encoded image part is most crucial for the Image Steganography to work properly:
-//        saveEncodedImgBtn.setOnClickListener(view -> {
-//            final Bitmap imgToSave = encodedImageBitmap;
-//            Thread PerformEncoding = new Thread(() -> saveToInternalStorage(imgToSave));
-//            saveLoadingDialog.show();
-//
-//            PerformEncoding.start();
-//        });
     }
 
     private void imageChooser() {
@@ -211,42 +198,4 @@ public class EncodeImgSteg1 extends AppCompatActivity implements TextEncodingCal
             Toast.makeText(this, "Image not saved. Check logs for error", Toast.LENGTH_LONG).show();
         }
     }
-
-
-//    private void saveToInternalStorage(Bitmap bitmapImage) {
-//        OutputStream fOut;
-//        //Integer counter = 0;
-//        File file = new File(Environment.getExternalStoragePublicDirectory(
-//                Environment.DIRECTORY_DOWNLOADS), "Encoded" + ".PNG"); // the File to save ,
-//        try {
-//            fOut = new FileOutputStream(file);
-//            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fOut); // saving the Bitmap to a file
-//            fOut.flush(); // Not really required
-//            fOut.close(); // do not forget to close the stream
-//            successEncodingTextView.post(() -> {
-////                    save.dismiss();
-//                saveLoadingDialog.dismiss();
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private void checkAndRequestPermissions() {
-//        int permissionWriteStorage = ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        int ReadPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-//        List<String> listPermissionsNeeded = new ArrayList<>();
-//        if (ReadPermission != PackageManager.PERMISSION_GRANTED) {
-//            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-//        }
-//        if (permissionWriteStorage != PackageManager.PERMISSION_GRANTED) {
-//            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        }
-//        if (!listPermissionsNeeded.isEmpty()) {
-//            String[] listPermissionsNeededStringArr = new String[listPermissionsNeeded.size()];
-//            listPermissionsNeededStringArr = listPermissionsNeeded.toArray(listPermissionsNeededStringArr);
-//            ActivityCompat.requestPermissions(this, listPermissionsNeededStringArr, 1);
-//        }
-//    }
 }
