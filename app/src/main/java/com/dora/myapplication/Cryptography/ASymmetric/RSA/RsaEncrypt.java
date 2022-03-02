@@ -42,7 +42,7 @@ public class RsaEncrypt extends AppCompatActivity {
     Button chooseKeyBtn, startEncryptBtn, tapToCopyBtn;
     byte[] publicKeyBytes;
     PublicKey publicKey;
-    TextView successKeyImportTextView, successMessageEncryptedTextView, encodedMessageTextView;
+    TextView successKeyImportTextView, successMessageEncryptedTextView, encodedMessageTextView, encodedMessageHeadingTextView;
     EditText messageToEncryptEditText;
     boolean encryptionSuccessFlag;
     ConstraintLayout afterEncodingConstraintLayout;
@@ -64,6 +64,7 @@ public class RsaEncrypt extends AppCompatActivity {
         encodedMessageTextView = findViewById(R.id.encodedMessageTextViewRsaEncrypt);
         messageToEncryptEditText = findViewById(R.id.editTextMessageRsaEncrypt);
         afterEncodingConstraintLayout = findViewById(R.id.afterEncodingConstraintLayoutRsaEncrypt);
+        encodedMessageHeadingTextView = findViewById(R.id.encodedMessageHeadingTextViewRsaEncrypt);
 
         publicKeyBytes = null;
         publicKey = null;
@@ -194,7 +195,15 @@ public class RsaEncrypt extends AppCompatActivity {
                         encodedMessage = "None";
                         Toast.makeText(this, "Some Internal Error while encrypting!!!. Check logs for error", Toast.LENGTH_LONG).show();
                     }
-                    encodedMessageTextView.setText(encodedMessage);
+                    if (encodedMessage.length() > 200) {
+                        String shortenedEncodedMessage = encodedMessage.substring(0, 200);
+                        shortenedEncodedMessage += ".........................";
+                        encodedMessageTextView.setText(shortenedEncodedMessage);
+                        String heading = "Encoded Message: " + encodedMessage.length() + " bits";
+                        encodedMessageHeadingTextView.setText(heading);
+                    } else {
+                        encodedMessageTextView.setText(encodedMessage);
+                    }
                 } else {
                     Toast.makeText(this, "Unable to Encrypt !!!. Check logs for error", Toast.LENGTH_LONG).show();
                 }

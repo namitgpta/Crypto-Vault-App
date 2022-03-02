@@ -115,10 +115,10 @@
         app:layout_constraintVertical_bias="0.181">
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/encodedMessageHeadingTextViewRsaEncrypt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Encoded Message:"
+            android:text="Encoded Message: 128 bits"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +133,7 @@
             android:text="None"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/encodedMessageHeadingTextViewRsaEncrypt" />
 
         <Button
             android:id="@+id/copyToClipboardBtnRsaEncrypt"

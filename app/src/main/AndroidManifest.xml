@@ -17,6 +17,15 @@
         android:theme="@style/Theme.CryptoVault"
         tools:targetApi="31">
         <activity
+            android:name=".Cryptography.Symmetric.CaesarCipher.CaesarCipherDecode"
+            android:exported="false" />
+        <activity
+            android:name=".Cryptography.Symmetric.CaesarCipher.CaesarCipherEncode"
+            android:exported="false" />
+        <activity
+            android:name=".Cryptography.Symmetric.CaesarCipher.CaesarCipherMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".Cryptography.ASymmetric.RSA.RsaDecrypt"
             android:exported="false" />
         <activity

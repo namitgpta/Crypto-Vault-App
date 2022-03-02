@@ -28,7 +28,7 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src\\main\\res', 'src\\main\\res\\layouts', 'src\\main\\res\\layouts\\cryptography', 'src\\main\\res\\layouts\\image-steganography', 'src\\main\\res\\layouts\\cryptography\\rsa'
+                srcDirs 'src\\main\\res', 'src\\main\\res\\layouts', 'src\\main\\res\\layouts\\cryptography', 'src\\main\\res\\layouts\\image-steganography', 'src\\main\\res\\layouts\\cryptography\\rsa', 'src\\main\\res\\layouts\\cryptography\\caesar_cipher'
             }
         }
     }
