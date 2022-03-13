@@ -46,9 +46,7 @@ public class RsaEncrypt extends AppCompatActivity {
     EditText messageToEncryptEditText;
     boolean encryptionSuccessFlag;
     ConstraintLayout afterEncodingConstraintLayout;
-
     String encodedMessage;
-
     AlertDialog loadingDialog;
 
     @Override

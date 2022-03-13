@@ -17,13 +17,13 @@
         android:theme="@style/Theme.CryptoVault"
         tools:targetApi="31">
         <activity
-            android:name=".Cryptography.Symmetric.CaesarCipher.CaesarCipherDecode"
+            android:name=".Cryptography.Symmetric.AllSymmetricCiphers.DecodeSymmetricCiphers"
             android:exported="false" />
         <activity
-            android:name=".Cryptography.Symmetric.CaesarCipher.CaesarCipherEncode"
+            android:name=".Cryptography.Symmetric.AllSymmetricCiphers.EncodeSymmetricCiphers"
             android:exported="false" />
         <activity
-            android:name=".Cryptography.Symmetric.CaesarCipher.CaesarCipherMainActivity"
+            android:name=".Cryptography.Symmetric.AllSymmetricCiphers.AllSymmetricCiphersMainActivity"
             android:exported="false" />
         <activity
             android:name=".Cryptography.ASymmetric.RSA.RsaDecrypt"
