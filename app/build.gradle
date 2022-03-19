@@ -45,4 +45,8 @@ dependencies {
 
     // Img Steganography GitHub
     implementation 'com.github.aagarwal1012:Image-Steganography-Library-Android:v1.0'
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    // 5.1.49 is the only compatible version to run AWS RDS MySQL with Android Studio properly.
+    implementation 'mysql:mysql-connector-java:5.1.49'
 }

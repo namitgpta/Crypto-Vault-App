@@ -11,7 +11,7 @@ import com.dora.myapplication.R;
 
 public class AllSymmetricCiphersMainActivity extends AppCompatActivity {
 
-    Button encodeBtn, decodeBtn;
+    Button encodeBtn, decodeBtn, showHistoryBtn;
     String whichCipher;
     TextView heading;
 
@@ -27,6 +27,7 @@ public class AllSymmetricCiphersMainActivity extends AppCompatActivity {
 
         encodeBtn = findViewById(R.id.encodeCaesarCipherBtn);
         decodeBtn = findViewById(R.id.decodeCaesarCipherBtn);
+        showHistoryBtn = findViewById(R.id.historySymmetricCiphers);
         heading = findViewById(R.id.symmetricCiphersHeadingTextView);
 
         switch (whichCipher) {
@@ -50,6 +51,14 @@ public class AllSymmetricCiphersMainActivity extends AppCompatActivity {
             // value in CAPITALS:
             i.putExtra("whichCipher", whichCipher);
             startActivity(i);
+        });
+
+        showHistoryBtn.setOnClickListener(view -> {
+            Intent i = new Intent(AllSymmetricCiphersMainActivity.this, HistorySymmetricCiphers.class);
+            // value in CAPITALS:
+            i.putExtra("whichCipher", whichCipher);
+            startActivity(i);
+
         });
     }
 }
