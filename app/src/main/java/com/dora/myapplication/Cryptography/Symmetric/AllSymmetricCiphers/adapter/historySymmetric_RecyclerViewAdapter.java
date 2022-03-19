@@ -55,6 +55,7 @@ public class historySymmetric_RecyclerViewAdapter extends RecyclerView.Adapter<h
         String dateTimeStr = timestampValuesArray.get(position).substring(0, 11);
         int hrs = Integer.parseInt(timestampValuesArray.get(position).substring(11, 13));
         int mins = Integer.parseInt(timestampValuesArray.get(position).substring(14, 16));
+        // to add +5:30 to the UTC timings stored in the table to convert to IST timings:
         hrs += 5;
         mins += 30;
         if (mins >= 60) {
