@@ -40,21 +40,23 @@ public class historySymmetric_RecyclerViewAdapter extends RecyclerView.Adapter<h
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         if (encodedValuesArray.isEmpty() || timestampValuesArray.isEmpty()) return;
 
+        String encodedTitleStringFull = encodedValuesArray.get(getItemCount() - position - 1);
+        String dateTimeFullString = timestampValuesArray.get(getItemCount() - position - 1);
+
         holder.copyToClipboard.setOnClickListener(v -> {
             ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clipData = ClipData.newPlainText("historySymmetricCipher", encodedValuesArray.get(position));
+            ClipData clipData = ClipData.newPlainText("historySymmetricCipher", encodedTitleStringFull);
             clipboardManager.setPrimaryClip(clipData);
             Toast.makeText(context, "Copied to Clipboard !!!", Toast.LENGTH_SHORT).show();
         });
 
-
-        String encodedTitleString = encodedValuesArray.get(position);
+        String encodedTitleString = encodedTitleStringFull;
         if (encodedTitleString.length() > 25)
             encodedTitleString = encodedTitleString.substring(0, 25) + ".........";
         holder.title.setText(encodedTitleString);
-        String dateTimeStr = timestampValuesArray.get(position).substring(0, 11);
-        int hrs = Integer.parseInt(timestampValuesArray.get(position).substring(11, 13));
-        int mins = Integer.parseInt(timestampValuesArray.get(position).substring(14, 16));
+        String dateTimeStr = dateTimeFullString.substring(0, 11);
+        int hrs = Integer.parseInt(dateTimeFullString.substring(11, 13));
+        int mins = Integer.parseInt(dateTimeFullString.substring(14, 16));
         // to add +5:30 to the UTC timings stored in the table to convert to IST timings:
         hrs += 5;
         mins += 30;
