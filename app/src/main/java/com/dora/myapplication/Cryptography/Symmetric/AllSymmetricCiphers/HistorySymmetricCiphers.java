@@ -1,5 +1,10 @@
 package com.dora.myapplication.Cryptography.Symmetric.AllSymmetricCiphers;
 
+import static com.dora.myapplication.AwsRdsData.TABLE_NAME_AES;
+import static com.dora.myapplication.AwsRdsData.password;
+import static com.dora.myapplication.AwsRdsData.url;
+import static com.dora.myapplication.AwsRdsData.username;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -25,12 +30,6 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
     private RecyclerView recyclerViewHistory;
     private historySymmetric_RecyclerViewAdapter historySymmetric_recyclerViewAdapter;
     private ProgressBar progressBar;
-
-    public static final String DATABASE_NAME = "crypto_vault";
-    public static final String url = "jdbc:mysql://crypto-vault-rds-1.ce3udfzrdpxd.ap-south-1.rds.amazonaws.com:3306/" +
-            DATABASE_NAME + "?autoReconnect=true&useSSL=false";
-    public static final String username = "admin", password = "namitVit$83";
-    public static final String TABLE_NAME = "AES";
 
     ArrayList<String> encodedValuesArray, timestampValuesArray;
 
@@ -68,7 +67,7 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
 
-                ResultSet rs = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
+                ResultSet rs = statement.executeQuery("SELECT * FROM " + TABLE_NAME_AES);
                 while (rs.next()) {
                     encodedValuesArray.add(rs.getString("encodedString"));
                     timestampValuesArray.add(rs.getString("encodedDateTime"));

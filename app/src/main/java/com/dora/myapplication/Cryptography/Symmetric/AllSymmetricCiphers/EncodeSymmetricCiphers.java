@@ -1,5 +1,10 @@
 package com.dora.myapplication.Cryptography.Symmetric.AllSymmetricCiphers;
 
+import static com.dora.myapplication.AwsRdsData.TABLE_NAME_AES;
+import static com.dora.myapplication.AwsRdsData.password;
+import static com.dora.myapplication.AwsRdsData.url;
+import static com.dora.myapplication.AwsRdsData.username;
+
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -22,6 +27,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -157,6 +165,26 @@ public class EncodeSymmetricCiphers extends AppCompatActivity {
                 afterEncodingConstraintLayout.setVisibility(View.VISIBLE);
                 encodedMessageTextView.setText(encodedMessage);
                 loadingDialog.dismiss();
+                uploadToAwsRds();
+            });
+        }).start();
+    }
+
+    private void uploadToAwsRds() {
+        new Thread(() -> {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connection = DriverManager.getConnection(url, username, password);
+                Statement statement = connection.createStatement();
+                // add to RDS DB:
+                statement.execute("INSERT INTO " + TABLE_NAME_AES + "(encodedString) VALUES('" + encodedMessage + "')");
+                connection.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            runOnUiThread(() -> {
+                // after the job is finished:
             });
         }).start();
     }
