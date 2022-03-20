@@ -20,13 +20,13 @@ import java.util.ArrayList;
 public class historySymmetric_RecyclerViewAdapter extends RecyclerView.Adapter<historySymmetric_RecyclerViewAdapter.ViewHolder> {
 
     private final Context context;
-    private final ArrayList<String> encodedValuesArray;
-    private final ArrayList<String> timestampValuesArray;
+    private final ArrayList<String> encodedValuesArray, timestampValuesArray, methodUsedArray;
 
-    public historySymmetric_RecyclerViewAdapter(Context context, ArrayList<String> encodedValuesArray, ArrayList<String> timestampValuesArray) {
+    public historySymmetric_RecyclerViewAdapter(Context context, ArrayList<String> encodedValuesArray, ArrayList<String> timestampValuesArray, ArrayList<String> methodUsedArray) {
         this.context = context;
         this.encodedValuesArray = encodedValuesArray;
         this.timestampValuesArray = timestampValuesArray;
+        this.methodUsedArray = methodUsedArray;
     }
 
     @NonNull
@@ -38,10 +38,11 @@ public class historySymmetric_RecyclerViewAdapter extends RecyclerView.Adapter<h
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        if (encodedValuesArray.isEmpty() || timestampValuesArray.isEmpty()) return;
+        if (encodedValuesArray.isEmpty()) return;
 
-        String encodedTitleStringFull = encodedValuesArray.get(getItemCount() - position - 1);
-        String dateTimeFullString = timestampValuesArray.get(getItemCount() - position - 1);
+        String encodedTitleStringFull = encodedValuesArray.get(position);
+        String dateTimeFullString = timestampValuesArray.get(position);
+        String methodUsed = methodUsedArray.get(position);
 
         holder.copyToClipboard.setOnClickListener(v -> {
             ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -54,6 +55,7 @@ public class historySymmetric_RecyclerViewAdapter extends RecyclerView.Adapter<h
         if (encodedTitleString.length() > 25)
             encodedTitleString = encodedTitleString.substring(0, 25) + ".........";
         holder.title.setText(encodedTitleString);
+        holder.methodUsedTextView.setText(methodUsed);
         String dateTimeStr = dateTimeFullString.substring(0, 11);
         int hrs = Integer.parseInt(dateTimeFullString.substring(11, 13));
         int mins = Integer.parseInt(dateTimeFullString.substring(14, 16));
@@ -86,17 +88,16 @@ public class historySymmetric_RecyclerViewAdapter extends RecyclerView.Adapter<h
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, date;
+        public TextView title, date, methodUsedTextView;
         //        public ImageView imageView;
         public Button copyToClipboard;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             title = itemView.findViewById(R.id.textView1_row_hf);
             date = itemView.findViewById(R.id.textView3_row_hf);
             copyToClipboard = itemView.findViewById(R.id.read_more_hf);
-//            description = itemView.findViewById(R.id.textView2_row_hf);
+            methodUsedTextView = itemView.findViewById(R.id.textView2_row_hf);
 //            imageView = itemView.findViewById(R.id.image_row_hf);
         }
     }

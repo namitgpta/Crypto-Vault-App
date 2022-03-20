@@ -31,7 +31,7 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
     private historySymmetric_RecyclerViewAdapter historySymmetric_recyclerViewAdapter;
     private ProgressBar progressBar;
 
-    ArrayList<String> encodedValuesArray, timestampValuesArray;
+    ArrayList<String> encodedValuesArray, timestampValuesArray, methodUsedArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
 
         encodedValuesArray = new ArrayList<>();
         timestampValuesArray = new ArrayList<>();
+        methodUsedArray = new ArrayList<>();
 
         progressBar = findViewById(R.id.progressBarHistorySymmetricCiphers);
         progressBar.setVisibility(View.VISIBLE);
@@ -67,12 +68,12 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
 
-                ResultSet rs = statement.executeQuery("SELECT * FROM " + TABLE_NAME_AES);
+                ResultSet rs = statement.executeQuery("SELECT * FROM " + TABLE_NAME_AES + " ORDER BY _id DESC");
                 while (rs.next()) {
                     encodedValuesArray.add(rs.getString("encodedString"));
+                    methodUsedArray.add(rs.getString("method"));
                     timestampValuesArray.add(rs.getString("encodedDateTime"));
                 }
-
                 connection.close();
 
             } catch (Exception e) {
@@ -82,11 +83,11 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
             runOnUiThread(() -> {
                 // after the job is finished:
 
-                if (encodedValuesArray.isEmpty() || timestampValuesArray.isEmpty()) {
+                if (encodedValuesArray.isEmpty()) {
                     Toast.makeText(this, "Failed to fetch data from AWS RDS !!!", Toast.LENGTH_LONG).show();
                 } else {
                     // setup adapter
-                    historySymmetric_recyclerViewAdapter = new historySymmetric_RecyclerViewAdapter(HistorySymmetricCiphers.this, encodedValuesArray, timestampValuesArray);
+                    historySymmetric_recyclerViewAdapter = new historySymmetric_RecyclerViewAdapter(HistorySymmetricCiphers.this, encodedValuesArray, timestampValuesArray, methodUsedArray);
                     recyclerViewHistory.setAdapter(historySymmetric_recyclerViewAdapter);
                 }
                 progressBar.setVisibility(View.INVISIBLE);

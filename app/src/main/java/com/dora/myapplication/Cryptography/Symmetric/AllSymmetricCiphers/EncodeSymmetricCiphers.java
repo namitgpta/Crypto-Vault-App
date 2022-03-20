@@ -29,7 +29,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -159,7 +159,6 @@ public class EncodeSymmetricCiphers extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 // after the thread job is finished:
-
                 encodedMessage = cipherText.toString();
                 successMessageEncodedTextView.setVisibility(View.VISIBLE);
                 afterEncodingConstraintLayout.setVisibility(View.VISIBLE);
@@ -175,9 +174,13 @@ public class EncodeSymmetricCiphers extends AppCompatActivity {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
+//                Statement statement = connection.createStatement();
                 // add to RDS DB:
-                statement.execute("INSERT INTO " + TABLE_NAME_AES + "(encodedString) VALUES('" + encodedMessage + "')");
+                // Prepared Statement ? can be used only to set the VALUES.
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + TABLE_NAME_AES + "(encodedString, method) VALUES(?, ?)");
+                preparedStatement.setString(1, encodedMessage);
+                preparedStatement.setString(2, whichCipher);
+                preparedStatement.executeUpdate();
                 connection.close();
 
             } catch (Exception e) {
