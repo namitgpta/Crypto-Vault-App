@@ -51,10 +51,31 @@
             android:layout_alignParentEnd="true"
             android:drawableTint="@color/colorAccent"
             android:padding="10sp"
-            android:text="Copy to Clipboard"
+            android:text="Copy"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/deleteBtnHistorySymmetric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/read_more_hf"
+            android:drawableTint="@color/colorAccent"
+            android:padding="10sp"
+            android:text="Delete"
+            android:layout_marginEnd="10sp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ProgressBar
+            android:id="@+id/progressBarHistorySymmetricRow"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/read_more_hf"
+            android:layout_marginEnd="25sp"/>
 
     </RelativeLayout>
 

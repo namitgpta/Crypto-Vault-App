@@ -50,6 +50,7 @@ public class EncodeSymmetricCiphers extends AppCompatActivity {
     TextView successMessageEncodedTextView, encodedMessageTextView, heading, keyHeading;
     String encodedMessage, whichCipher, clipboardLabel;
     AlertDialog loadingDialog;
+    boolean uploadToAwsSuccessful;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +171,7 @@ public class EncodeSymmetricCiphers extends AppCompatActivity {
     }
 
     private void uploadToAwsRds() {
+        uploadToAwsSuccessful = true;
         new Thread(() -> {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -184,10 +186,13 @@ public class EncodeSymmetricCiphers extends AppCompatActivity {
                 connection.close();
 
             } catch (Exception e) {
+                uploadToAwsSuccessful = false;
                 e.printStackTrace();
             }
             runOnUiThread(() -> {
                 // after the job is finished:
+                if (!uploadToAwsSuccessful)
+                    Toast.makeText(this, "Upload to AWS Failed !!!", Toast.LENGTH_LONG).show();
             });
         }).start();
     }

@@ -32,6 +32,7 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
     private ProgressBar progressBar;
 
     ArrayList<String> encodedValuesArray, timestampValuesArray, methodUsedArray;
+//    Connection connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,6 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
 
     public void utilFun() throws SQLException {
         new Thread(() -> {
-            //do your work
-
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -96,21 +95,4 @@ public class HistorySymmetricCiphers extends AppCompatActivity {
 
     }
 
-//    public static void addTemp(String name_str, String place_str) {
-//        new Thread(() -> {
-//            try {
-//                Class.forName("com.mysql.jdbc.Driver");
-//                Connection connection = DriverManager.getConnection(url, username, password);
-//                Statement statement = connection.createStatement();
-//                // add to RDS DB:
-//
-//                statement.execute("INSERT INTO " + TABLE_NAME + "(name, place) VALUES('" + name_str + "', '" + place_str + "')");
-//
-//                connection.close();
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
-//    }
 }
