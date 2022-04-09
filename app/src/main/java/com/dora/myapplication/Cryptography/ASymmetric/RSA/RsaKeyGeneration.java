@@ -1,5 +1,9 @@
 package com.dora.myapplication.Cryptography.ASymmetric.RSA;
 
+import static com.dora.myapplication.AwsRdsData.password;
+import static com.dora.myapplication.AwsRdsData.url;
+import static com.dora.myapplication.AwsRdsData.username;
+
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dora.myapplication.R;
 
@@ -27,23 +32,28 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class RsaKeyGeneration extends AppCompatActivity {
 
     int keyLength;
-    Button generateBtn, saveKeysBtn;
-    EditText customKeyLengthEditText;
+    Button generateBtn, saveKeysBtn, saveToAwsBtn;
+    EditText customKeyLengthEditText, publicKeyNameEditText;
     TextView keysGenerateSuccessTextView;
 
     AlertDialog loadingDialog;
+    ConstraintLayout afterGenerateConstraintLayout;
 
     PrivateKey privateKey;
     PublicKey publicKey;
 
     boolean keysSavedOrNot = true;
     boolean keysGeneratedOrNot = true;
+    boolean uploadToAwsSuccessful;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +62,13 @@ public class RsaKeyGeneration extends AppCompatActivity {
 
         generateBtn = findViewById(R.id.generateKeyRsaButton);
         saveKeysBtn = findViewById(R.id.saveKeysRsaBtn);
+        saveToAwsBtn = findViewById(R.id.saveToAwsRsaBtn);
         customKeyLengthEditText = findViewById(R.id.editTextKeyLength);
+        publicKeyNameEditText = findViewById(R.id.publicKeyNameEditTextRsa);
         keysGenerateSuccessTextView = findViewById(R.id.keysGenerateSuccessRsaTextView);
+        afterGenerateConstraintLayout = findViewById(R.id.afterKeyGenerationRsaConstraintLayout);
 
-        keysGenerateSuccessTextView.setVisibility(View.INVISIBLE);
+        UiElementsHide();
 
         privateKey = null;
         publicKey = null;
@@ -67,7 +80,7 @@ public class RsaKeyGeneration extends AppCompatActivity {
         loadingDialog = builder.create();
 
         generateBtn.setOnClickListener(view -> {
-            keysGenerateSuccessTextView.setVisibility(View.INVISIBLE);
+            UiElementsHide();
             keyLength = 256; //set default Key Length for RSA
             String customKeyLength = customKeyLengthEditText.getText().toString().trim();
             if (!customKeyLength.isEmpty()) {
@@ -105,7 +118,7 @@ public class RsaKeyGeneration extends AppCompatActivity {
                     // after the thread job is finished:
                     loadingDialog.dismiss();
                     if (keysGeneratedOrNot) {
-                        keysGenerateSuccessTextView.setVisibility(View.VISIBLE);
+                        UiElementsShow();
                     } else
                         Toast.makeText(this, "Error in Key Generation. Check logs", Toast.LENGTH_LONG).show();
                 });
@@ -122,10 +135,50 @@ public class RsaKeyGeneration extends AppCompatActivity {
 
         });
 
+        saveToAwsBtn.setOnClickListener(view -> {
+            String publicKeyName = publicKeyNameEditText.getText().toString().trim();
+            if (privateKey == null) {
+                Toast.makeText(this, "First Generate the Keys....", Toast.LENGTH_SHORT).show();
+            } else if (publicKeyName.isEmpty()) {
+                Toast.makeText(this, "Enter any name for the Public Key....", Toast.LENGTH_SHORT).show();
+            } else {
+                savePublicKeyToAwsFun(publicKeyName);
+                loadingDialog.show();
+            }
 
+        });
     }
 
-    public void saveKeysScopedStorage() {
+    private void savePublicKeyToAwsFun(String publicKeyName) {
+        uploadToAwsSuccessful = true;
+        new Thread(() -> {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connection = DriverManager.getConnection(url, username, password);
+
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO RSA" + "(publicKey, name, keyBits) VALUES(?, ?, ?)");
+                preparedStatement.setBytes(1, publicKey.getEncoded());
+                preparedStatement.setString(2, publicKeyName);
+                preparedStatement.setInt(3, keyLength);
+                preparedStatement.executeUpdate();
+                connection.close();
+
+            } catch (Exception e) {
+                uploadToAwsSuccessful = false;
+                e.printStackTrace();
+            }
+            runOnUiThread(() -> {
+                // after the job is finished:
+                if (!uploadToAwsSuccessful)
+                    Toast.makeText(this, "Upload to AWS Failed !!!", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(this, "Upload to AWS Successful !!!", Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            });
+        }).start();
+    }
+
+    private void saveKeysScopedStorage() {
         keysSavedOrNot = true;
 
         new Thread(() -> {
@@ -163,7 +216,7 @@ public class RsaKeyGeneration extends AppCompatActivity {
                 }
             } catch (Exception e) {
                 keysSavedOrNot = false;
-                Log.e("Stego Image Save Error: ", e.getMessage());
+                Log.e("RSA Keys Save Error: ", e.getMessage());
             } finally {
                 try {
                     if (os != null) {
@@ -176,19 +229,26 @@ public class RsaKeyGeneration extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 // after the thread job is finished:
-                keysSavedToastFunction();
+                if (keysSavedOrNot) {
+                    Toast.makeText(this, "Keys Saved to Downloads!!!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Unable to Save the Keys. Check logs for error", Toast.LENGTH_LONG).show();
+                }
                 loadingDialog.dismiss();
             });
 
         }).start();
     }
 
-    public void keysSavedToastFunction() {
-        if (keysSavedOrNot) {
-            Toast.makeText(this, "Keys Saved to Downloads!!!", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Unable to Save the Keys. Check logs for error", Toast.LENGTH_LONG).show();
-        }
+    private void UiElementsShow() {
+        keysGenerateSuccessTextView.setVisibility(View.VISIBLE);
+        afterGenerateConstraintLayout.setVisibility(View.VISIBLE);
+        saveKeysBtn.setVisibility(View.VISIBLE);
     }
 
+    private void UiElementsHide() {
+        keysGenerateSuccessTextView.setVisibility(View.INVISIBLE);
+        afterGenerateConstraintLayout.setVisibility(View.INVISIBLE);
+        saveKeysBtn.setVisibility(View.INVISIBLE);
+    }
 }

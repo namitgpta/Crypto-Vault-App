@@ -10,7 +10,7 @@ import com.dora.myapplication.R;
 
 public class RSAMainActivity extends AppCompatActivity {
 
-    Button keyGenerateBtn, encryptBtn, decryptBtn;
+    Button keyGenerateBtn, encryptBtn, decryptBtn, showOnlinePublicKeysBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class RSAMainActivity extends AppCompatActivity {
         keyGenerateBtn = findViewById(R.id.rsaKeyGenerateBtn);
         encryptBtn = findViewById(R.id.encryptRSABtn);
         decryptBtn = findViewById(R.id.decryptRSABtn);
+        showOnlinePublicKeysBtn = findViewById(R.id.showPublicKeysRsaBtn);
 
         keyGenerateBtn.setOnClickListener(view -> {
             startActivity(new Intent(RSAMainActivity.this, RsaKeyGeneration.class));
@@ -30,7 +31,9 @@ public class RSAMainActivity extends AppCompatActivity {
         decryptBtn.setOnClickListener(view -> {
             startActivity(new Intent(RSAMainActivity.this, RsaDecrypt.class));
         });
-
+        showOnlinePublicKeysBtn.setOnClickListener(view -> {
+            startActivity(new Intent(RSAMainActivity.this, RsaShowPublicKeys.class));
+        });
 
     }
 }
