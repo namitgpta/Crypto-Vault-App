@@ -1,3 +1,12 @@
+<div align= "center">
+<img src="https://img.shields.io/badge/Platform-Android-brightgreen.svg" alt="Platform" />
+<img src="https://img.shields.io/badge/API-29%2B-blue.svg" alt="API" /> 
+<a href="https://opensource.org/licenses/MIT">
+<img src="https://img.shields.io/badge/License-MIT-red.svg" alt="License: MIT" />
+</a>
+<img src="https://img.shields.io/badge/Database-AWS-%23FF9900.svg" alt="AWS" />
+</div>
+
 # Crypto-Vault-App
 Android App implementing Cryptographic & Image Steganography algorithms and much more.
 
@@ -9,7 +18,10 @@ We combined both Cryptography & Steganography in one app to create a more secure
 Also, we have connected our app to AWS RDS Database, for storing RSA Keys and Encrypted Data.
 
 ## App Description
-•	Image steganography for hiding secret data inside pixel values of the image using LSB embedding method. (Thanks to aagarwal1012 on GitHub for the development of this amazing Library for Image Steganography)\
+•	Image steganography for hiding secret data inside pixel values of the image using LSB embedding method.
+(Thanks to aagarwal1012 on GitHub for the development of this amazing Library for Image Steganography)
+<a href="https://github.com/aagarwal1012/Image-Steganography-Library-Android">Image-Steg-Library-aagarwal1012</a>
+
 •	Cryptographic Algorithms like AES, RSA etc. for encryption/decryption of confidential information.\
 •	Secure communication of the secret key used in Image Steganography using RSA public-private key encryption system.\
 •	Technologies used: Java, Android Studio, AWS RDS MySQL.\
