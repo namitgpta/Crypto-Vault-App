@@ -20,3 +20,5 @@ Also, we have connected our app to AWS RDS Database, for storing RSA Keys and En
 •	Good Internet Connection required to store and retrieve data from AWS RDS backend.\
 •	Min Android SDK of Android 10 Q needed to run the Android app.
 
+## App Demo - Video Link
+<a href="https://youtu.be/C13UaHJazl8" target="_blank">App Demo Video</a>
