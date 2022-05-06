@@ -9,7 +9,7 @@ We combined both Cryptography & Steganography in one app to create a more secure
 Also, we have connected our app to AWS RDS Database, for storing RSA Keys and Encrypted Data.
 
 ## App Description
-•	Image steganography for hiding secret data inside pixel values of the image using LSB embedding method.\
+•	Image steganography for hiding secret data inside pixel values of the image using LSB embedding method. (Thanks to aagarwal1012 on GitHub for the development of this amazing Library for Image Steganography)\
 •	Cryptographic Algorithms like AES, RSA etc. for encryption/decryption of confidential information.\
 •	Secure communication of the secret key used in Image Steganography using RSA public-private key encryption system.\
 •	Technologies used: Java, Android Studio, AWS RDS MySQL.\
@@ -21,4 +21,4 @@ Also, we have connected our app to AWS RDS Database, for storing RSA Keys and En
 •	Min Android SDK of Android 10 Q needed to run the Android app.
 
 ## App Demo - Video Link
-<a href="https://youtu.be/C13UaHJazl8" target="_blank">App Demo Video</a>
+<a href="https://youtu.be/C13UaHJazl8">YouTube - App Demo</a>
