@@ -13,4 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/src/main/java/com/dora/myapplication/AwsRdsData.java
+/app/src/main/java/com/dora/myapplication/AwsRdsData.java
