@@ -15,3 +15,4 @@
 local.properties
 /src/main/java/com/dora/myapplication/AwsRdsData.java
 gradlew.bat
+gradlew
